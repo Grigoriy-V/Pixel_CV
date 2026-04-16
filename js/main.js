@@ -65,8 +65,10 @@ const Game = {
         this.lastTimestamp = timestamp;
 
         Renderer.clear();
+        Renderer.updateCamera(Character.x, Character.y);
+        Renderer.applyCamera();
 
-        // Town scene
+        // World-space rendering
         Renderer.drawBase();
         Animations.draw(Renderer.ctx, timestamp);
         FountainGlow.draw(Renderer.ctx, timestamp);
@@ -89,6 +91,11 @@ const Game = {
                 Renderer.ctx.stroke();
             }
         }
+
+        Renderer.resetCamera();
+
+        // Screen-space rendering: mobile labels (edge-pinned + smooth slide-in)
+        GameObjects.drawMobileLabels(Renderer.ctx);
 
         requestAnimationFrame((ts) => this._gameLoop(ts));
     },

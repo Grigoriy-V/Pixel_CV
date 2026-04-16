@@ -447,3 +447,19 @@ body {
     font-size: 7px;
     pointer-events: none;
 }
+
+/* ── Mobile overrides (< 900px) ─────────────────────────────────────── */
+@media (max-width: 899px) {
+    /* Fast Overview: top-right corner, 1/3 screen width, equal margins */
+    #quick-menu-btn {
+        top:    3vw;
+        right:  3vw;
+        bottom: auto;
+        left:   auto;
+        width:  33vw;
+        font-size: clamp(7px, 2.8vw, 18px);
+        padding: 2.5vw 2vw;
+        text-align: center;
+        white-space: normal;
+    }
+}

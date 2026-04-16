@@ -1,0 +1,449 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0a0a12;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Press Start 2P', monospace;
+    cursor: crosshair;
+}
+
+#game-canvas {
+    display: none;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    cursor: crosshair;
+}
+
+/* Loading screen */
+#loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #8888cc;
+    gap: 20px;
+}
+
+#loading-text {
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.loading-bar {
+    width: 200px;
+    height: 8px;
+    border: 2px solid #4444aa;
+    background: #111;
+    position: relative;
+    overflow: hidden;
+}
+
+.loading-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background: #6666dd;
+    animation: loading-slide 1s ease-in-out infinite;
+}
+
+@keyframes loading-slide {
+    0% { left: -50%; }
+    100% { left: 100%; }
+}
+
+/* Tooltip - shown for "coming soon" items */
+#tooltip {
+    position: fixed;
+    padding: clamp(7px, 0.417vw, 16px) clamp(10px, 0.625vw, 24px);
+    background: rgba(10, 10, 20, 0.92);
+    border: 2px solid #6666aa;
+    color: #ccccee;
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(7px, 0.417vw, 16px);
+    line-height: 1.8;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.2s;
+    max-width: clamp(200px, 14.6vw, 480px);
+    box-shadow: 0 0 16px rgba(100, 100, 200, 0.3);
+}
+
+#tooltip.visible {
+    opacity: 1;
+}
+
+#tooltip strong {
+    color: #aaaaff;
+    font-size: clamp(8px, 0.469vw, 18px);
+}
+
+#tooltip .hint {
+    color: #777799;
+    font-size: clamp(6px, 0.365vw, 14px);
+}
+
+/* Scroll detail overlay */
+#scroll-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#scroll-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#scroll-parchment {
+    position: relative;
+    width: clamp(420px, 36.5vw, 1100px);
+    max-width: 90vw;
+    max-height: 85vh;
+    background: #2a1a0a;
+    border: 3px solid #664422;
+    box-shadow: 0 0 40px rgba(100, 70, 30, 0.5), inset 0 0 30px rgba(0, 0, 0, 0.4);
+    padding: clamp(20px, 1.56vw, 56px) clamp(22px, 1.82vw, 64px);
+    overflow-y: auto;
+    image-rendering: pixelated;
+}
+
+#scroll-parchment::-webkit-scrollbar {
+    width: 8px;
+}
+
+#scroll-parchment::-webkit-scrollbar-track {
+    background: #1a0f05;
+}
+
+#scroll-parchment::-webkit-scrollbar-thumb {
+    background: #664422;
+    border: 1px solid #443311;
+}
+
+#scroll-close {
+    position: absolute;
+    top: clamp(6px, 0.417vw, 16px);
+    right: clamp(8px, 0.625vw, 24px);
+    background: none;
+    border: 2px solid #664422;
+    color: #aa8844;
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(9px, 0.521vw, 20px);
+    padding: clamp(3px, 0.208vw, 8px) clamp(6px, 0.417vw, 16px);
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+#scroll-close:hover {
+    color: #ffcc66;
+    border-color: #aa8844;
+}
+
+#scroll-content h2 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(11px, 0.729vw, 28px);
+    color: #ffcc66;
+    text-align: center;
+    margin-bottom: 4px;
+    text-shadow: 0 0 10px rgba(255, 200, 80, 0.3);
+}
+
+#scroll-content .scroll-hero-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(14px, 0.938vw, 36px);
+    color: #ffcc66;
+    text-align: center;
+    margin-bottom: 6px;
+    text-shadow: 0 0 16px rgba(255, 200, 80, 0.4);
+}
+
+#scroll-content .scroll-subtitle {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(7px, 0.417vw, 16px);
+    color: #886633;
+    text-align: center;
+    margin-bottom: clamp(14px, 1.042vw, 40px);
+}
+
+#scroll-content .scroll-section {
+    margin-bottom: clamp(12px, 0.833vw, 32px);
+}
+
+#scroll-content .scroll-section h3 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(8px, 0.469vw, 18px);
+    color: #cc9944;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #443311;
+    padding-bottom: 4px;
+}
+
+#scroll-content .scroll-section p {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(6px, 0.365vw, 14px);
+    color: #bbaa88;
+    line-height: 2;
+    white-space: pre-line;
+}
+
+/* Links list */
+#scroll-content .scroll-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+#scroll-content .scroll-links li {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(8px, 0.521vw, 20px);
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(6px, 0.365vw, 14px);
+}
+#scroll-content .scroll-link-label {
+    color: #cc9944;
+    min-width: clamp(50px, 3.646vw, 140px);
+    flex-shrink: 0;
+}
+#scroll-content .scroll-links a {
+    color: #bbaa88;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.15s;
+}
+#scroll-content .scroll-links a:hover {
+    color: #ffcc66;
+}
+
+/* Copy-on-click */
+#scroll-content .scroll-copy {
+    color: #bbaa88;
+    cursor: pointer;
+    text-decoration: underline dashed;
+    text-underline-offset: 3px;
+    transition: color 0.15s;
+}
+#scroll-content .scroll-copy:hover {
+    color: #ffcc66;
+}
+#scroll-content .scroll-copy.copied {
+    color: #88cc88;
+}
+
+/* CTA button */
+.scroll-cta-section {
+    margin-top: 8px;
+    text-align: center;
+}
+.scroll-cta-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(7px, 0.417vw, 16px);
+    color: #ffcc66;
+    background: transparent;
+    border: 2px solid #664422;
+    padding: clamp(8px, 0.521vw, 20px) clamp(14px, 0.938vw, 36px);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+.scroll-cta-btn:hover {
+    color: #fff;
+    border-color: #aa8844;
+    box-shadow: 0 0 12px rgba(255, 200, 80, 0.2);
+}
+
+/* Fade overlay for scene transitions */
+#fade-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0a0a12;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 200;
+}
+
+#fade-overlay.active {
+    opacity: 1;
+}
+
+/* Quick menu button */
+#quick-menu-btn {
+    position: fixed;
+    right:  calc(var(--canvas-mx, 0px) + calc(116px * var(--canvas-s, 1)));
+    bottom: calc(var(--canvas-my, 0px) + calc(90px  * var(--canvas-s, 1)));
+    padding: clamp(16px, 1.146vw, 44px) clamp(32px, 2.292vw, 88px);
+    background: #2a1a0a;
+    border: 3px solid #664422;
+    color: #ccaa66;
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(14px, 0.938vw, 36px);
+    cursor: pointer;
+    z-index: 150;
+    white-space: nowrap;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    image-rendering: pixelated;
+}
+
+#quick-menu-btn:hover {
+    background: #3a2a10;
+    border-color: #aa8844;
+    color: #ffcc66;
+}
+
+/* Quick menu overlay */
+#quick-menu-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#quick-menu-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#quick-menu-parchment {
+    position: relative;
+    width: clamp(320px, 28.125vw, 860px);
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: #2a1a0a;
+    border: 3px solid #664422;
+    padding: clamp(22px, 1.667vw, 64px) clamp(20px, 1.458vw, 56px) clamp(18px, 1.25vw, 48px);
+    box-shadow: 0 0 40px rgba(100, 60, 10, 0.5), inset 0 0 30px rgba(0,0,0,0.4);
+    image-rendering: pixelated;
+}
+
+#quick-menu-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(10px, 0.677vw, 26px);
+    color: #ffcc66;
+    margin: 0 0 clamp(14px, 1.042vw, 40px) 0;
+    text-shadow: 0 0 10px rgba(255,200,80,0.3);
+    border-bottom: 1px solid #443311;
+    padding-bottom: clamp(8px, 0.625vw, 24px);
+}
+
+#quick-menu-close {
+    position: absolute;
+    top: clamp(6px, 0.417vw, 16px);
+    right: clamp(8px, 0.625vw, 24px);
+    background: none;
+    border: 1px solid #664422;
+    color: #aa8855;
+    font-size: clamp(10px, 0.625vw, 24px);
+    width: clamp(18px, 1.25vw, 48px);
+    height: clamp(18px, 1.25vw, 48px);
+    cursor: pointer;
+    font-family: monospace;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+#quick-menu-close:hover {
+    color: #ffcc66;
+    border-color: #aa8844;
+}
+
+.quick-menu-item {
+    display: block;
+    width: 100%;
+    background: none;
+    border: 1px solid #443311;
+    border-radius: 0;
+    color: #bbaa88;
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(7px, 0.417vw, 16px);
+    padding: clamp(9px, 0.625vw, 24px) clamp(10px, 0.729vw, 28px);
+    margin-bottom: clamp(6px, 0.417vw, 16px);
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.quick-menu-item:hover {
+    background: #3a2a10;
+    border-color: #aa8844;
+    color: #ffcc66;
+}
+
+.quick-menu-item .item-subtitle {
+    display: block;
+    font-size: clamp(5px, 0.313vw, 12px);
+    color: #664422;
+    margin-top: clamp(4px, 0.26vw, 10px);
+}
+
+#quick-menu-cv {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #443311;
+    text-align: center;
+}
+
+#quick-menu-cv-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(7px, 0.417vw, 16px);
+    color: #bbaa88;
+    text-decoration: none;
+    border: 2px solid #664422;
+    padding: clamp(8px, 0.521vw, 20px) clamp(14px, 0.938vw, 36px);
+    display: inline-block;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+#quick-menu-cv-btn:hover {
+    color: #ffcc66;
+    border-color: #aa8844;
+}
+
+/* Debug hint */
+#debug-hint {
+    position: fixed;
+    bottom: 8px;
+    right: 12px;
+    color: #222;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    pointer-events: none;
+}

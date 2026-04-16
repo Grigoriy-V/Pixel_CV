@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Pixel Town</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Loading screen -->
+    <div id="loading">
+        <div id="loading-text">Загрузка...</div>
+        <div class="loading-bar"></div>
+    </div>
+
+    <!-- Game canvas -->
+    <canvas id="game-canvas"></canvas>
+
+    <!-- Tooltip (shown for "coming soon" items) -->
+    <div id="tooltip"></div>
+
+    <!-- Scroll detail overlay -->
+    <div id="scroll-overlay">
+        <div id="scroll-parchment">
+            <button id="scroll-close">✕</button>
+            <div id="scroll-content"></div>
+        </div>
+    </div>
+
+    <!-- Fade overlay for scene transitions -->
+    <div id="fade-overlay"></div>
+
+    <!-- Quick menu button -->
+    <button id="quick-menu-btn">Fast Overview</button>
+
+    <!-- Quick menu overlay -->
+    <div id="quick-menu-overlay">
+        <div id="quick-menu-parchment">
+            <button id="quick-menu-close">✕</button>
+            <h2 id="quick-menu-title">Fast Overview</h2>
+            <div id="quick-menu-list"></div>
+            <div id="quick-menu-cv">
+                <a id="quick-menu-cv-btn" href="https://drive.google.com/file/d/1ubyt_yxRzjBqCf9FZafwg7hmy95hpjGN/view" target="_blank" rel="noopener">Open Text CV</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Debug hint -->
+    <div id="debug-hint">D — debug</div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/walkmap.js"></script>
+    <script src="js/pathfinder.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/character.js"></script>
+    <script src="js/scenes.js"></script>
+    <script src="js/masks.js"></script>
+    <script src="js/objects.js"></script>
+    <script src="js/quickmenu.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

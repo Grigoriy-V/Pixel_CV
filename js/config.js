@@ -158,11 +158,21 @@ const CONFIG = {
                 sections: [
                     {
                         heading: 'Focus',
-                        text: 'Coming soon...'
+                        text: "I'm currently working on AI products, content automation systems, and user journey flows. What drives me is how people interact with a product — finding the most direct and frictionless path to the result, removing everything unnecessary. I'm not only interested in writing code or working with AI models, but in thinking about what new possibilities technology opens up today and how those can be turned into real products. I like looking at a product as a whole system."
                     },
                     {
                         heading: 'Open to',
-                        text: 'Coming soon...'
+                        items: [
+                            'AI Product Engineer',
+                            'Generative AI',
+                            'AI Solutions Engineer',
+                            'Product Engineer',
+                            'AI Product Manager / Product Manager',
+                        ]
+                    },
+                    {
+                        heading: '',
+                        text: 'Open to roles at the intersection of AI, product, and systems thinking — where it matters not only to build solutions, but to shape direction, logic, and the user journey. Most excited about work where emerging technology can be turned into real, useful products.'
                     },
                 ]
             }

@@ -242,6 +242,27 @@ body {
 #scroll-content .scroll-links a:hover {
     color: #ffcc66;
 }
+#scroll-content .scroll-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+#scroll-content .scroll-list li {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(6px, 0.365vw, 14px);
+    color: #bbaa88;
+    padding-left: 1em;
+    position: relative;
+}
+#scroll-content .scroll-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: #cc9944;
+}
 
 /* Copy-on-click */
 #scroll-content .scroll-copy {

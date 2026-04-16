@@ -52,6 +52,12 @@ const Scenes = {
                     }
                 }
                 html += `</ul></div>`;
+            } else if (section.items) {
+                html += `<div class="scroll-section"><h3>${section.heading}</h3><ul class="scroll-list">`;
+                for (const item of section.items) {
+                    html += `<li>${item}</li>`;
+                }
+                html += `</ul></div>`;
             } else {
                 html += `<div class="scroll-section"><h3>${section.heading}</h3><p>${section.text}</p></div>`;
             }

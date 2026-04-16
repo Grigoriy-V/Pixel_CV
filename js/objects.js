@@ -5,7 +5,7 @@ const GameObjects = {
     _pixelData: null,
     _mapWidth: 0,
     _mapHeight: 0,
-    _mapCanvas: null,   // cached for debug overlay
+    _mapCanvas: null,   // cached zone map for object center detection
     _activeObject: null,
     _pendingObject: null,
     _tolerance: 60,
@@ -58,14 +58,13 @@ const GameObjects = {
         this._openContent(obj);
     },
 
-    // Debug: draw interaction map as semi-transparent overlay
+    // Debug: draw interaction map as semi-transparent overlay + zone name labels
     drawDebug(ctx) {
         if (!this._mapCanvas) return;
         ctx.save();
         ctx.globalAlpha = 0.35;
         ctx.drawImage(this._mapCanvas, 0, 0, CONFIG.BASE_WIDTH, CONFIG.BASE_HEIGHT);
         ctx.globalAlpha = 1;
-        // Label each object at its zone center
         ctx.font = '14px monospace';
         ctx.fillStyle = 'rgba(255,255,255,0.9)';
         for (const obj of CONFIG.OBJECTS) {
@@ -249,7 +248,7 @@ const GameObjects = {
         }
     },
 
-    // Find centroid of a color zone (used for debug labels)
+    // Find centroid of a color zone (used for label positioning)
     _getZoneCenter(color) {
         if (!this._pixelData) return null;
         let sumX = 0, sumY = 0, count = 0;

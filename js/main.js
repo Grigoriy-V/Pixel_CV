@@ -77,6 +77,7 @@ const Game = {
         Masks.draw(Renderer.ctx);
         GameObjects.drawLabels(Renderer.ctx);
 
+        // Debug overlay (toggle with D key)
         if (this.debugMode) {
             WalkMap.drawDebug(Renderer.ctx);
             GameObjects.drawDebug(Renderer.ctx);
@@ -128,10 +129,9 @@ const Game = {
             }
         }, { passive: false });
 
+        // Debug toggle (D key) — for development only
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'd' || e.key === 'D') {
-                this.debugMode = !this.debugMode;
-            }
+            if (e.key === 'd' || e.key === 'D') this.debugMode = !this.debugMode;
         });
 
     },

@@ -1,57 +1,65 @@
-# Pixel Town
+# Pixel CV — Interactive Portfolio
 
-Browser pixel-art adventure game built with HTML5 Canvas. Explore a medieval fantasy town, visit buildings, and discover interactive scrolls with documentation about Claude Code features.
+A pixel-art portfolio built with vanilla HTML5 Canvas. Explore a medieval fantasy town and interact with objects to learn about the author.
 
-## Quick Start
+**Live demo:** https://grigoriy-v.github.io/Pixel_CV/
 
-1. Clone the repository:
-```bash
-git clone git@github.com:artanov/pixel_castle.git
-cd pixel_castle
-```
+## How it works
 
-2. Start a local web server:
-```bash
-python -m http.server 8080
-```
-
-3. Open in browser:
-```
-http://localhost:8080
-```
+Walk around the town and approach interactive objects — a label appears above each one. Click an object (or its label) to open a content card with information. A **Fast Overview** button in the corner lets you jump directly to any section.
 
 ## Controls
 
-- **Click** on the map to move the character
-- **Click** on a building to walk to its entrance
-- **Click again** on the building to enter the interior
-- **Click** on scrolls inside buildings to read content
-- **D** key toggles debug mode (shows walkmap, hitboxes, pathfinding)
+| Input | Action |
+|---|---|
+| Click / Tap | Move character |
+| Click object or label | Open content card |
+| Fast Overview button | Jump to any section |
+| **D** key | Toggle debug overlay (dev) |
+
+## Sections
+
+1. **About Me** — table
+2. **Core Skills** — board
+3. **Experience** — books
+4. **Projects** — alchemy table
+5. **Where I'm Heading** — telescope
 
 ## Project Structure
 
 ```
-├── index.html              # Entry point
-├── css/style.css            # Styles
+├── index.html
+├── css/style.css
 ├── js/
-│   ├── config.js            # Game configuration
-│   ├── main.js              # Game loop & initialization
-│   ├── renderer.js          # Canvas rendering & scaling
-│   ├── walkmap.js           # Walkability grid
-│   ├── pathfinder.js        # A* pathfinding
-│   ├── character.js         # Character movement & animation
-│   ├── animations.js        # Sprite animations (torches, fountain)
-│   ├── interactions.js      # Building click interactions
-│   └── scenes.js            # Interior scenes & scroll system
+│   ├── config.js        # All content, object definitions, character settings
+│   ├── main.js          # Game loop & event handling
+│   ├── renderer.js      # Canvas scaling, mobile camera follow
+│   ├── walkmap.js       # Walkability grid
+│   ├── pathfinder.js    # A* pathfinding
+│   ├── character.js     # Movement & sprite animation
+│   ├── animations.js    # Ambient animations (torches, fountain)
+│   ├── masks.js         # Depth masks for layering
+│   ├── objects.js       # Interactive objects & label rendering
+│   ├── scenes.js        # Content modal system
+│   └── quickmenu.js     # Fast Overview panel
 └── assets/
-    ├── town-base.png        # Town background
-    ├── town-walkmap.png     # Walkability map
-    ├── torch-map.png        # Torch placement map
-    ├── sprites/             # Sprite sheets
-    └── interiors/           # Building interior backgrounds
+    ├── v1/              # Background and walkmap images
+    └── ...              # Sprite sheets, masks
 ```
 
-## Requirements
+## Local Development
 
-- Any modern browser with HTML5 Canvas support
-- Python 3 (for local server) or any static file server
+```bash
+git clone https://github.com/Grigoriy-V/Pixel_CV.git
+cd Pixel_CV
+python -m http.server 8080
+# open http://localhost:8080
+```
+
+## Mobile
+
+Fully playable on mobile. The viewport follows the character (750 art-px wide), and off-screen object labels slide in from the nearest edge.
+
+## Contact
+
+Telegram: https://t.me/GRIGORIY_VOYAKIN

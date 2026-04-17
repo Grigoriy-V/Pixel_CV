@@ -136,6 +136,12 @@ const CONFIG = {
                 subtitle: 'Things I built',
                 sections: [
                     {
+                        heading: 'Pixel CV',
+                        subtitle: 'Interactive resume',
+                        teaser: 'This project is an expanded take on a classic CV — built as a small interactive world. It works as a portfolio, a project showcase, and an experiment with a more game-like way of presenting yourself.',
+                        article: 'projects/pixel_cv.md',
+                    },
+                    {
                         heading: 'Geni AI',
                         text: 'Coming soon...'
                     },

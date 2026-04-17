@@ -3,7 +3,30 @@
 
 const Scenes = {
     init() {
-        // nothing to set up — modal overlay is wired in _onItemClick on demand
+        const backBtn = document.getElementById('article-back');
+        backBtn.addEventListener('click', () => this._closeArticle());
+        document.getElementById('article-overlay').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('article-overlay')) this._closeArticle();
+        });
+    },
+
+    async openArticle(mdPath) {
+        const overlay = document.getElementById('article-overlay');
+        const content = document.getElementById('article-content');
+        content.innerHTML = '<p>Loading...</p>';
+        overlay.classList.add('visible');
+        overlay.scrollTop = 0;
+        try {
+            const res  = await fetch(mdPath);
+            const text = await res.text();
+            content.innerHTML = marked.parse(text);
+        } catch (e) {
+            content.innerHTML = '<p>Could not load article.</p>';
+        }
+    },
+
+    _closeArticle() {
+        document.getElementById('article-overlay').classList.remove('visible');
     },
 
     // Public: open content overlay directly (used by GameObjects & QuickMenu)
@@ -38,7 +61,14 @@ const Scenes = {
         if (c.heroName) html += `<div class="scroll-hero-name">${c.heroName}</div>`;
         if (c.subtitle) html += `<div class="scroll-subtitle">${c.subtitle}</div>`;
         for (const section of c.sections) {
-            if (section.type === 'button') {
+            if (section.article) {
+                html += `<div class="scroll-section scroll-project">
+                    <h3>${section.heading}</h3>
+                    ${section.subtitle ? `<div class="scroll-project-subtitle">${section.subtitle}</div>` : ''}
+                    ${section.teaser   ? `<p class="scroll-project-teaser">${section.teaser}</p>` : ''}
+                    <button class="scroll-read-btn" data-article="${section.article}">Read more</button>
+                </div>`;
+            } else if (section.type === 'button') {
                 html += `<div class="scroll-section scroll-cta-section">
                     <button class="scroll-cta-btn" data-action="${section.action}">${section.label}</button>
                 </div>`;
@@ -97,6 +127,11 @@ const Scenes = {
         };
         closeBtn.addEventListener('click', closeHandler);
         overlay.addEventListener('click', bgClickHandler);
+
+        // Read more → open article overlay
+        contentEl.querySelectorAll('.scroll-read-btn[data-article]').forEach(btn => {
+            btn.addEventListener('click', () => this.openArticle(btn.dataset.article));
+        });
 
         // CTA button → close modal + open quick menu
         const ctaBtn = contentEl.querySelector('.scroll-cta-btn[data-action="quickmenu"]');

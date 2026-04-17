@@ -8,6 +8,18 @@ const Scenes = {
         document.getElementById('article-overlay').addEventListener('click', (e) => {
             if (e.target === document.getElementById('article-overlay')) this._closeArticle();
         });
+
+        // Lightbox
+        const lightbox = document.getElementById('lightbox');
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('visible');
+        });
+        document.getElementById('article-content').addEventListener('click', (e) => {
+            if (e.target.tagName === 'IMG') {
+                document.getElementById('lightbox-img').src = e.target.src;
+                lightbox.classList.add('visible');
+            }
+        });
     },
 
     async openArticle(mdPath) {
